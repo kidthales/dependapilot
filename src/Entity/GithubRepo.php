@@ -13,6 +13,8 @@ namespace App\Entity;
 
 use App\Entity\Trait\PrimaryIdTrait;
 use App\Repository\GithubRepoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,20 @@ final class GithubRepo
      */
     #[ORM\Column(name: 'project', type: 'string', length: 100, nullable: false, updatable: false)]
     private ?string $project = null;
+
+    /**
+     * @var Collection
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'githubRepos')]
+    private Collection $users;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * @return string|null
@@ -70,6 +86,39 @@ final class GithubRepo
     public function setProject(string $project): self
     {
         $this->project = $project;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addGithubRepo($this); // Ensure bidirectional relationship
+        }
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeGithubRepo($this); // Ensure bidirectional relationship
+        }
         return $this;
     }
 

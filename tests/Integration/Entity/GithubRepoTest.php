@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Entity;
 
-use App\Entity\User;
+use App\Entity\GithubRepo;
 use App\Tests\Integration\DoctrineTestCase;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -20,8 +20,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * @author kidthales <kidthales@agogpixel.com>
  */
-#[CoversClass(User::class)]
-final class UserTest extends DoctrineTestCase
+#[CoversClass(GithubRepo::class)]
+final class GithubRepoTest extends DoctrineTestCase
 {
     /**
      * @return void
@@ -30,10 +30,11 @@ final class UserTest extends DoctrineTestCase
      */
     public function testPersist(): void
     {
-        $user = new User();
-        $user->setGithubId(1);
-        $this->entityManager->persist($user);
+        $repo = new GithubRepo();
+        $repo->setOwner('foo')
+            ->setProject('bar');
+        $this->entityManager->persist($repo);
         $this->entityManager->flush();
-        self::assertNotNull($user->getId());
+        self::assertNotNull($repo->getId());
     }
 }

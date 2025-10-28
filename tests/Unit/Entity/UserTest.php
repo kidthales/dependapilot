@@ -32,14 +32,6 @@ final class UserTest extends TestCase
     /**
      * @return void
      */
-    public function testDefaultCreatedAtIsNull(): void
-    {
-        self::assertNull(new User()->getCreatedAt());
-    }
-
-    /**
-     * @return void
-     */
     public function testDefaultGithubIdIsNull(): void
     {
         self::assertNull(new User()->getGithubId());
@@ -61,17 +53,6 @@ final class UserTest extends TestCase
         $roles = new User()->getRoles();
         self::assertCount(1, $roles);
         self::assertSame('ROLE_USER', $roles[0]);
-    }
-
-    /**
-     * @return void
-     */
-    public function testPrePersistCreatedAt(): void
-    {
-        $timestamp = time();
-        $user = new User();
-        $user->prePersistCreatedAt();
-        self::assertGreaterThanOrEqual($timestamp, $user->getCreatedAt());
     }
 
     /**

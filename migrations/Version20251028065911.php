@@ -17,14 +17,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * @author kidthales <kidthales@agogpixel.com>
  */
-final class Version20251027054934 extends AbstractMigration
+final class Version20251028065911 extends AbstractMigration
 {
     /**
      * @return string
      */
     public function getDescription(): string
     {
-        return 'Create/Drop the user table.';
+        return 'Create/Drop the github_repo table.';
     }
 
     /**
@@ -34,13 +34,13 @@ final class Version20251027054934 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql(<<<'SQL'
-            CREATE TABLE user (
+            CREATE TABLE github_repo (
               id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-              github_id BIGINT NOT NULL
+              owner VARCHAR(39) NOT NULL,
+              project VARCHAR(100) NOT NULL
             )
-        SQL
-        );
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_GITHUB_ID ON user (github_id)');
+        SQL);
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_OWNER_PROJECT ON github_repo (owner, project)');
     }
 
     /**
@@ -49,6 +49,6 @@ final class Version20251027054934 extends AbstractMigration
      */
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP TABLE user');
+        $this->addSql('DROP TABLE github_repo');
     }
 }

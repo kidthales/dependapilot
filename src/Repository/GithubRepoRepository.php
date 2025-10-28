@@ -11,15 +11,15 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\User;
+use App\Entity\GithubRepo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<User>
+ * @extends ServiceEntityRepository<GithubRepo>
  * @author kidthales <kidthales@agogpixel.com>
  */
-final class UserRepository extends ServiceEntityRepository
+final class GithubRepoRepository extends ServiceEntityRepository
 {
     /**
      * @param ManagerRegistry $registry
@@ -27,19 +27,6 @@ final class UserRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, User::class);
-    }
-
-    /**
-     * @param int|string $value
-     * @return User|null
-     */
-    public function findOneByGithubId(int|string $value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.githubId = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult();
+        parent::__construct($registry, GithubRepo::class);
     }
 }

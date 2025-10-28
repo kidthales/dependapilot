@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Trait\CreatedAtTrait;
 use App\Entity\Trait\PrimaryIdTrait;
 use App\Repository\UserRepository;
 use Deprecated;
@@ -26,7 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 final class User implements UserInterface
 {
-    use PrimaryIdTrait, CreatedAtTrait;
+    use PrimaryIdTrait;
 
     /**
      * @var int|string|null
@@ -46,7 +45,7 @@ final class User implements UserInterface
      * @param int|string $githubId
      * @return $this
      */
-    public function setGithubId(int|string $githubId): static
+    public function setGithubId(int|string $githubId): self
     {
         $this->githubId = $githubId;
         return $this;

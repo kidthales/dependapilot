@@ -13,45 +13,17 @@ namespace App\Tests\Integration\Repository;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
+use App\Tests\Integration\DoctrineTestCase;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @author kidthales <kidthales@agogpixel.com>
  */
 #[CoversClass(UserRepository::class)]
-final class UserRepositoryTest extends KernelTestCase
+final class UserRepositoryTest extends DoctrineTestCase
 {
-    /**
-     * @var EntityManager|null
-     */
-    private ?EntityManager $entityManager;
-
-    /**
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        $this->entityManager = self::bootKernel()
-            ->getContainer()
-            ->get('doctrine')
-            ->getManager();
-    }
-
-    /**
-     * @return void
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        // doing this is recommended to avoid memory leaks
-        $this->entityManager->close();
-        $this->entityManager = null;
-    }
-
     /**
      * @return void
      * @throws ORMException

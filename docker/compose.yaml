@@ -14,7 +14,7 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - ../:/app
-      - ../var/php:/app/var
+      - ../var:/app/var
       - ./Caddyfile:/etc/frankenphp/Caddyfile:ro
       - ./conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
     ports:

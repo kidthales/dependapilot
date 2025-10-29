@@ -12,7 +12,7 @@ SYMFONY  := $(PHP) bin/console
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        : help build print up start down logs bash composer vendor sf cc own
+.PHONY        : help build print up start down logs bash test cov prep-test-db composer vendor sf cc own
 
 ## —— 🎖️  The Dependapilot Makefile 🎖️  —————————————————————————————————————————
 help: ## Outputs this help screen
@@ -38,6 +38,18 @@ logs: ## Show live logs
 
 bash: ## Connect to the php service via bash
 	@$(PHP_CONT) bash
+
+test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
+test: prep-test-db
+	@$(eval c ?=)
+	@$(CD_DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit $(c)
+
+cov: ## Start tests with phpunit and generate coverage report for the project
+cov: prep-test-db
+	@$(CD_DOCKER_COMP) exec -e APP_ENV=test -e XDEBUG_MODE=coverage php bin/phpunit --testdox --coverage-text --coverage-html coverage
+
+prep-test-db: ## Prepare the test database
+	@$(SYMFONY) -e test doctrine:migrations:migrate --no-interaction
 
 ## —— Composer 🧙 ——————————————————————————————————————————————————————————————
 composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'

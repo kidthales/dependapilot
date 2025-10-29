@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\GithubRepo;
+use App\Entity\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -48,6 +49,14 @@ final class GithubRepoTest extends TestCase
     /**
      * @return void
      */
+    public function testDefaultUsersIsEmpty(): void
+    {
+        self::assertEmpty(new GithubRepo()->getUsers());
+    }
+
+    /**
+     * @return void
+     */
     public function testSetOwner(): void
     {
         $repo = new GithubRepo();
@@ -63,6 +72,36 @@ final class GithubRepoTest extends TestCase
         $repo = new GithubRepo();
         $repo->setProject('bar');
         self::assertSame('bar', $repo->getProject());
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddUser(): void
+    {
+        $repo = new GithubRepo();
+        $user = new User();
+        $repo->addUser($user);
+        self::assertCount(1, $repo->getUsers());
+        self::assertCount(1, $user->getGithubRepos());
+        self::assertSame($user, $repo->getUsers()->first());
+        self::assertSame($repo, $user->getGithubRepos()->first());
+    }
+
+    /**
+     * @return void
+     */
+    public function testRemoveUser(): void
+    {
+        $repo = new GithubRepo();
+        $user1 = new User();
+        $user2 = new User();
+        $repo->addUser($user1);
+        $repo->addUser($user2);
+        self::assertCount(2, $repo->getUsers());
+        $repo->removeUser($user1);
+        self::assertCount(1, $repo->getUsers());
+        self::assertSame($user2, $repo->getUsers()->first());
     }
 
     /**

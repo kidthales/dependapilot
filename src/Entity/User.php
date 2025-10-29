@@ -24,7 +24,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_GITHUB_ID', fields: ['githubId'])]
-#[ORM\HasLifecycleCallbacks]
 final class User implements UserInterface
 {
     use PrimaryIdTrait;

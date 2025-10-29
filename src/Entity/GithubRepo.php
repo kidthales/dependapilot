@@ -22,7 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[ORM\Entity(repositoryClass: GithubRepoRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_OWNER_PROJECT', fields: ['owner', 'project'])]
-#[ORM\HasLifecycleCallbacks]
 final class GithubRepo
 {
     use PrimaryIdTrait;

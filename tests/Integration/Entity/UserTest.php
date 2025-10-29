@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Entity;
 
+use App\Entity\GithubRepo;
 use App\Entity\User;
 use App\Tests\Integration\DoctrineTestCase;
 use Doctrine\ORM\Exception\ORMException;
@@ -32,8 +33,14 @@ final class UserTest extends DoctrineTestCase
     {
         $user = new User();
         $user->setGithubId(1);
+        $repo = new GithubRepo();
+        $repo->setOwner('foo')
+            ->setProject('bar');
+        $user->addGithubRepo($repo);
+        $this->entityManager->persist($repo);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         self::assertNotNull($user->getId());
+        self::assertSame($repo, $user->getGithubRepos()->first());
     }
 }

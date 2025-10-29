@@ -16,6 +16,9 @@ trim_trailing_whitespace = false
 [*.sh]
 indent_style = tab
 
+[.github/**/*.yml]
+indent_size = 2
+
 [{Caddyfile,*.*Caddyfile}]
 indent_style = tab
 

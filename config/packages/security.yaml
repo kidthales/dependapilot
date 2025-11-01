@@ -23,11 +23,19 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+            entry_point: App\Security\AuthenticationEntryPoint
+
+            custom_authenticators:
+                - App\Security\GithubAuthenticator
+
+            logout:
+                path: /logout
+                target: !php/const App\Route\RouteName::LOGIN
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/logout, roles: ROLE_USER }
+        - { path: ^/(login|connect), roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
 
 when@test:

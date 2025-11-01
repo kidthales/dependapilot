@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @author kidthales <kidthales@agogpixel.com>
  */
 #[CoversClass(GithubRepo::class)]
-final class GithubRepoTest extends DoctrineTestCase
+final class GitHubRepoTest extends DoctrineTestCase
 {
     /**
      * @return void

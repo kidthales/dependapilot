@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  * @author kidthales <kidthales@agogpixel.com>
  */
 #[CoversClass(GithubRepo::class)]
-final class GithubRepoTest extends TestCase
+final class GitHubRepoTest extends TestCase
 {
     /**
      * @return void

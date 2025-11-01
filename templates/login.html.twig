@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <hgroup>
+            <h1>Login to Dependapilot</h1>
+            <p>Connect with your GitHub account</p>
+        </hgroup>
+        <a role="button" href="{{ path(constant('App\\Route\\RouteName::CONNECT')) }}">Connect</a>
+    </main>
+{% endblock %}
